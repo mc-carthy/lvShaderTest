@@ -1,4 +1,5 @@
 function love.load()
+    time = 0
     joe = {}
     joe.image = love.graphics.newImage("assets/img/joe.png")
     joe.x = love.graphics.getWidth() / 2
@@ -11,11 +12,12 @@ function love.load()
         // Texture represents the image being drawn
         // texture_coords represent the normalised coordinates of the of the current pixel relative to the image
         // screen_coords represent the normalised coordinates of the of the current pixel relative to the screen
+        extern number factor;
         extern number screen_width;
         vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords){
             vec4 pixel = Texel(texture, texture_coords); // This is the current pixel colour
             number average = (pixel.r + pixel.g + pixel.b) / 3.0;
-            number factor = screen_coords.x / screen_width;
+            number screen_factor = screen_coords.x / screen_width;
             pixel.r = pixel.r + (average - pixel.r) * factor;
             pixel.g = pixel.g + (average - pixel.g) * factor;
             pixel.b = pixel.b + (average - pixel.b) * factor;
@@ -27,6 +29,10 @@ end
 
 
 function love.update(dt)
+    time = time + dt
+    local factor = math.abs(math.cos(time))
+    myShader:send("factor",factor)
+
     if love.keyboard.isDown("right") then
         joe.x = joe.x + joe.speed * dt
     end
