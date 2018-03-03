@@ -1,19 +1,22 @@
---[[
-    =======================
-    rm -rf .git
-    =======================
-]]--
-
 function love.load()
+    myShader = love.graphics.newShader[[
+        vec4 effect( vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords ){
+            vec4 pixel = Texel(texture, texture_coords);//This is the current pixel color
+            return pixel * color;
+        }
+    ]]
 end
+
 
 function love.update(dt)
 
 end
 
 function love.draw()
-
-end
+    love.graphics.setShader(myShader)
+    love.graphics.rectangle("fill", 50, 50, 200, 200)
+    love.graphics.setShader()
+  end
 
 function love.keypressed(key)
     if key == 'escape' then
