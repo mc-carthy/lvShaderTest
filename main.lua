@@ -11,16 +11,15 @@ function love.load()
         // Texture represents the image being drawn
         // texture_coords represent the normalised coordinates of the of the current pixel relative to the image
         // screen_coords represent the normalised coordinates of the of the current pixel relative to the screen
-        extern number screen_width;
         vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords){
-            if (screen_coords.x > screen_width / 2) {
-                return vec4(0.75, 0.0, 0.0, 1.0);
-            } else {
-                return vec4(0.0, 0.0, 0.75, 1.0);
-            }
+            vec4 pixel = Texel(texture, texture_coords); // This is the current pixel colour
+            number average = (pixel.r + pixel.g + pixel.b) / 3.0;
+            pixel.r = average;
+            pixel.g = average;
+            pixel.b = average;
+            return pixel;
         }
         ]]
-    myShader:send("screen_width", love.graphics.getWidth())
 end
 
 
