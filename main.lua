@@ -6,10 +6,11 @@ function love.load()
         // texture_coords represent the normalised coordinates of the of the current pixel relative to the image
         // screen_coords represent the normalised coordinates of the of the current pixel relative to the screen
         vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords){
-            //This is the current pixel color
-            vec4 pixel = Texel(texture, texture_coords);
-            return pixel * color;
-            //return vec4(0.75, 0.0, 0.0, 1.0);
+            if (texture_coords.x > 0.5) {
+                return vec4(0.75, 0.0, 0.0, 1.0);
+            } else {
+                return vec4(0.0, 0.0, 0.75, 1.0);
+            }
         }
     ]]
 end
