@@ -1,9 +1,12 @@
 local shaderCode = [[
     vec4 effect(vec4 colour, Image image, vec2 uvs, vec2 screen_coords) {
         vec4 pixel = Texel(image, uvs);
+
+        float av = (pixel.r + pixel.g + pixel.b) / 3;
         
-        return pixel * colour;
         //return vec4(1.0, 0.0, 0.0, 1.0);
+        //return pixel * colour;
+        return vec4(av, av, av, 1.0) * colour;
     }
 ]]
 
@@ -14,7 +17,7 @@ end
 
 function love.draw()
     love.graphics.setShader(shader)
-    love.graphics.setColor(1.0, 0.0, 0.0, 1.0)
+    -- love.graphics.setColor(1.0, 0.0, 0.0, 1.0)
     love.graphics.draw(image, 0, 0)
     love.graphics.setShader()
 end
